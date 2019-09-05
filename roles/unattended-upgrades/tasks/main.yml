@@ -1,0 +1,6 @@
+---
+- name: install
+  apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges

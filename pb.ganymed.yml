@@ -1,0 +1,14 @@
+---
+- hosts: ganymed
+  user: root
+  become: yes
+
+  roles:
+    - common
+    - admins
+    # - fqdn
+    - apt-cacher
+    - unattended-upgrades
+    # - pihole
+    # - octoprint
+    # - cups

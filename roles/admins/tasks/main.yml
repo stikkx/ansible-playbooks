@@ -1,0 +1,14 @@
+---
+- name: set authorized keys
+  authorized_key:
+    user: root
+    key: '{{ item }}'
+    exclusive: True
+  with_file:
+    - public_keys/michael@makerspace-gt.de.pub
+
+- name: remove pi user
+  user:
+    name: pi
+    state: absent
+    remove: yes

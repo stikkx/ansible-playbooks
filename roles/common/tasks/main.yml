@@ -1,0 +1,41 @@
+---
+- name: apt-cacher-client
+  apt:
+    name:
+      - squid-deb-proxy-client
+
+- name: set locale
+  debconf:
+    name: locales
+    question: "locales/{{ item.key }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.type|default('string') }}"
+  with_items:
+  - { key: "locales_to_be_generated", value: "de_DE.UTF-8 UTF-8", vtype: "select" }
+  - { key: "default_environment_locale", value: "de_DE.UTF-8", vtype: "select" }
+
+- name: set keyboard layout
+  debconf:
+    name: "keyboard-configuration"
+    question: "keyboard-configuration/{{ item.key }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.type|default('string') }}"
+  with_items:
+  - { key: "model", value: "Generic 105-key PC (intl.)", vtype: "select" }
+  - { key: "layout", value: "German", vtype: "select" }
+  - { key: "variant", value: "German", vtype: "select" }
+  - { key: "altgr", value: "The default for the keyboard layout", vtype: "select" }
+  - { key: "compose", value: "No compose key", vtype: "select" }
+  - { key: "ctrl_alt_bksp", value: "false", type: "boolean" }
+
+- name: set timezone
+  timezone:
+    name: Europe/Berlin
+
+- name: install
+  apt:
+    name:
+      - git
+      - ncdu
+      - vim
+      - tree
