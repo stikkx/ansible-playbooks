@@ -1,0 +1,6 @@
+---
+- name: install
+  apt:
+    name:
+      - firefox-esr
+      - firefox-esr-l10n-de

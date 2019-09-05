@@ -1,0 +1,42 @@
+---
+- hosts: workstations
+  become: yes
+
+  roles:
+    # ToDo
+    # - android-tools
+    # - texteditor
+
+    # - contrib non-free
+    # - linux-firmware-nonfree
+
+    - common
+    - cinnamon
+    # - users (maker:maker dialout,tty)
+    
+    - ansible
+    # - arduinoide
+    - blender
+    # - deepnest
+    # - duplicati
+    - etcher
+    - firefox
+    - freecad
+    - gimp
+    - inkscape
+    - keepassxc
+    - kicad
+    # - lightburn
+    - libreoffice
+    # - nextcloud-client
+    - openscad
+    # - prusaslicer
+    - syncthing
+    # - texlive
+    - vagrant
+    # - virtualbox
+    # - veracrypt
+    # - rodrigorega.veracrypt
+    # - visicut
+    - vlc
+    - vscodium

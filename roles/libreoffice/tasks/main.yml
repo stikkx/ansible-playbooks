@@ -1,0 +1,8 @@
+---
+- name: install
+  apt:
+    name:
+      - libreoffice
+      - libreoffice-help-de
+      - libreoffice-l10n-de
+      - mythes-de

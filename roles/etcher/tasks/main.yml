@@ -1,0 +1,15 @@
+---
+- name: add key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 379CE192D401AB61
+
+- name: add repository
+  apt_repository:
+    repo: deb https://deb.etcher.io stable etcher
+    filename: etcher
+
+- name: install
+  apt:
+    name:
+      - balena-etcher-electron

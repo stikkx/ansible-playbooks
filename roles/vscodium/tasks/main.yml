@@ -1,0 +1,19 @@
+---
+- name: install dependencies
+  apt:
+    name:
+      - gnupg
+
+- name: add key
+  apt_key:
+    url: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+
+- name: add repository
+  apt_repository:
+    repo: deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main
+    filename: vscodium
+
+- name: install
+  apt:
+    name:
+      - codium
