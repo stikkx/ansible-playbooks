@@ -1,0 +1,138 @@
+---
+- name: install apt dependencies
+  apt:
+    name:
+      - runit
+      - build-essential
+      - git
+      - zlib1g-dev
+      - libyaml-dev
+      - libssl-dev
+      - libgdbm-dev
+      - libreadline-dev
+      - libncurses5-dev
+      - libffi-dev
+      - curl
+      - openssh-server
+      # - checkinstall
+      - libxml2-dev
+      - libxslt-dev
+      - libcurl4-openssl-dev
+      - libicu-dev
+      - logrotate
+      - python-docutils
+      - pkg-config
+      - cmake
+      - nodejs
+      - graphviz
+      - runit-systemd
+      - libssl-dev
+      - ruby2.5
+      - default-mysql-server
+      - default-mysql-client
+      - default-libmysqlclient-dev
+      - python-pymysql
+      - bundler
+      - nginx
+
+- name: install gem dependencies
+  gem:
+    name: "{{ item }}"
+  with_items:
+    - rake
+    # - bundler
+    - foreman
+
+- name: create system user
+  user:
+    name: huginn
+    system: yes     # --disabled-login
+    comment: Huginn # --gecos 'Huginn'
+
+- name: create database user
+  mysql_user:
+    name: huginn
+    password: password
+    priv: 'huginn_production.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX,ALTER,LOCK TABLES,GRANT'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: checkout repository
+  git:
+    repo: https://github.com/huginn/huginn.git
+    dest: /opt/huginn
+    update: no
+
+- name: change repository owner
+  file:
+    path: "{{ item }}"
+    owner: huginn
+    group: huginn
+    mode: '1777'
+    state: directory
+    recurse: yes
+  with_items:
+    - /opt/huginn
+    - /opt/huginn/log
+    - /opt/huginn/tmp/pids
+    - /opt/huginn/tmp/sockets
+
+- name: write configuration
+  template:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    owner: huginn
+    group: huginn
+    mode: '1777'
+  with_items:
+    - opt/huginn/.env
+    - opt/huginn/config/unicorn.rb
+    - opt/huginn/Procfile
+    - etc/logrotate.d/huginn
+    - etc/nginx/sites-available/huginn
+
+- name: install gems
+  bundler:
+    chdir: /opt/huginn
+    deployment_mode: yes
+    exclude_groups: development
+
+- name: initialize database
+  command: "bundle exec rake {{ item }}"
+  args:
+    chdir: /opt/huginn
+  with_items:
+    - db:create RAILS_ENV=production
+    - db:migrate RAILS_ENV=production
+    - db:seed RAILS_ENV=production SEED_USERNAME=admin SEED_PASSWORD=password
+
+- name: compile assets
+  command: bundle exec rake assets:precompile RAILS_ENV=production
+  args:
+    chdir: /opt/huginn
+
+- name: export the init scripts
+  command: bundle exec rake production:export
+  args:
+    chdir: /opt/huginn
+
+- name: run
+  command: bundle exec rake production:status
+  args:
+    chdir: /opt/huginn
+
+- name: nginx huginn site configuration
+  file:
+    src: /etc/nginx/sites-available/huginn
+    dest: /etc/nginx/sites-enabled/huginn
+    state: link
+
+- name: nginx default site configuration
+  file:
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: restart nginx
+  service:
+      name:
+        - nginx
+      state: restarted
