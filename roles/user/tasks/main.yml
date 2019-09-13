@@ -1,0 +1,12 @@
+---
+- name: add maker
+  user:
+    name: maker
+    # password: maker
+    shell: /bin/bash
+    groups: audio,cdrom,dialout,dip,netdev,plugdev,scanner,tty,video
+    append: yes
+
+- name: set maker password
+  shell: echo maker:maker | sudo chpasswd
+  no_log: True
