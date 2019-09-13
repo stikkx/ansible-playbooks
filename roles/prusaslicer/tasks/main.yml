@@ -1,0 +1,11 @@
+---
+- name: install
+  copy:
+    src: files/opt/prusaslicer/
+    dest: /opt/prusaslicer/
+    mode: preserve
+
+- name: create menu entry
+  template:
+    src: usr/share/applications/PrusaSlicer.desktop
+    dest: /usr/share/applications/PrusaSlicer.desktop

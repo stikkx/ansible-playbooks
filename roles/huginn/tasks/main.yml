@@ -132,7 +132,8 @@
     state: absent
 
 - name: restart nginx
-  service:
-      name:
-        - nginx
-      state: restarted
+  command: systemctl restart nginx
+#   service:
+#       name:
+#         - nginx.service
+#       state: restarted

@@ -1,0 +1,3 @@
+[submodule "roles/prusaslicer/files/prusaslicer"]
+	path = roles/prusaslicer/files/prusaslicer
+	url = git@git.makerspace-gt.de:makerspace-gt/3d-druck/prusaslicer.git
