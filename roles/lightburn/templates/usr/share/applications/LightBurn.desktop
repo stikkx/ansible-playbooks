@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=LightBurn
+Exec=/opt/lightburn/LightBurn-v0.9.07-x86_64.AppImage
+Terminal=false
+StartupWMClass=LightBurn
+Type=Application
+Categories=Development;Education;Science;
+MimeType=x-scheme-handler/stl;
+Keywords=laser;

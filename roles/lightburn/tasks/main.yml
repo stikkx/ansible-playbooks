@@ -1,0 +1,11 @@
+---
+- name: install
+  copy:
+    src: files/opt/lightburn/
+    dest: /opt/lightburn/
+    mode: u=rwx,g=rx,o=rx
+
+- name: create menu entry
+  template:
+    src: usr/share/applications/LightBurn.desktop
+    dest: /usr/share/applications/LightBurn.desktop
