@@ -3,9 +3,10 @@
 [workstations]
 jupiter.space.local # links
 saturn.space.local  # rechts
+uranus.space.local  # Laptop
 
 [ganymed]
-ganymed.space.local
+ganymed.space.local # raspberry pi
 
 [forum]
 forum.makerspace-gt.de

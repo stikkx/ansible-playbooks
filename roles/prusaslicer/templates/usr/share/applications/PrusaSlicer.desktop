@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Prusa Slicer
+Exec=/opt/prusaslicer/bin/prusa-slicer
+Icon=/opt/prusaslicer/resources/icons/PrusaSlicer.png
+Terminal=false
+StartupWMClass=PrusaSlicer
+Type=Application
+Categories=Development;Education;Science;
+MimeType=x-scheme-handler/stl;
+Keywords=slicer;3d;

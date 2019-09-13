@@ -4,16 +4,15 @@
 
   roles:
     # ToDo
-    # - android-tools
-    # - texteditor
 
     # - contrib non-free
     # - linux-firmware-nonfree
 
     - common
     - cinnamon
-    # - users (maker:maker dialout,tty)
+    - user #(maker:maker dialout,tty)
     
+    - android-tools
     - ansible
     # - arduinoide
     - blender
@@ -26,15 +25,17 @@
     - inkscape
     - keepassxc
     - kicad
-    # - lightburn
+    - lightburn
     - libreoffice
     # - nextcloud-client
     - openscad
-    # - prusaslicer
+    - pandoc
+    - prusaslicer
     - syncthing
     # - texlive
+    - texteditor
     - vagrant
-    # - virtualbox
+    - virtualbox
     # - veracrypt
     # - rodrigorega.veracrypt
     # - visicut
