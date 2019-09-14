@@ -10,13 +10,13 @@
 
     - common
     - cinnamon
-    - user #(maker:maker dialout,tty)
-    
+    - user
+
     - android-tools
     - ansible
-    # - arduinoide
+    - arduinoide
     - blender
-    # - deepnest
+    - deepnest
     # - duplicati
     - etcher
     - firefox
@@ -37,7 +37,6 @@
     - vagrant
     - virtualbox
     # - veracrypt
-    # - rodrigorega.veracrypt
     # - visicut
     - vlc
     - vscodium
