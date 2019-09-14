@@ -1,0 +1,11 @@
+---
+- name: copy
+  copy:
+    src: files/opt/arduinoide/
+    dest: /opt/arduinoide/
+    mode: preserve
+
+- name: install
+  command: install.sh
+  args:
+    chdir: /opt/arduinoide
