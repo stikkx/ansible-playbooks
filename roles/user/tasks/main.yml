@@ -4,7 +4,7 @@
     name: maker
     # password: maker
     shell: /bin/bash
-    groups: audio,cdrom,dialout,dip,netdev,plugdev,scanner,tty,video
+    groups: audio,cdrom,dialout,dip,netdev,plugdev,scanner,tty,uucp,video
     append: yes
 
 - name: set maker password
