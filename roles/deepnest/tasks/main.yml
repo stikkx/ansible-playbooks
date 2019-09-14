@@ -1,0 +1,11 @@
+---
+- name: install
+  copy:
+    src: files/opt/deepnest/
+    dest: /opt/deepnest/
+    mode: u=rwx,g=rx,o=rx
+
+- name: create menu entry
+  template:
+    src: usr/share/applications/Deepnest.desktop
+    dest: /usr/share/applications/Deepnest.desktop

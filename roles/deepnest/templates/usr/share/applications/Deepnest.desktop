@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Deepnest
+Exec=/opt/deepnest/Deepnest-1.0.5-x86_64.AppImage
+Terminal=false
+StartupWMClass=Deepnest
+Type=Application
+Categories=Development;Education;Science;
+MimeType=x-scheme-handler/stl;
+Keywords=laser;
