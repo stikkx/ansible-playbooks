@@ -4,3 +4,9 @@
 [submodule "roles/arduinoide/files/opt/arduinoide"]
 	path = roles/arduinoide/files/opt/arduinoide
 	url = git@git.makerspace-gt.de:igami/arduinoide.git
+[submodule "lib/ansible-freeipa"]
+	path = lib/ansible-freeipa
+	url = https://github.com/freeipa/ansible-freeipa.git
+[submodule "provisioning/roles/conorsch.arduino"]
+	path = provisioning/roles/conorsch.arduino
+	url = https://github.com/conorsch/ansible-role-arduino.git
