@@ -1,6 +1,6 @@
 ---
 - name: Install FreeIPA Server
-  hosts: all
+  hosts: ipa
   become: yes
 
   vars:
@@ -31,16 +31,19 @@
     # - file:
     #     path: /etc/hosts
     #     state: touch
-    - yum: 
-        name: firewalld
-    - systemd: 
-        name: firewalld
-        state: started
-        enabled: yes
+    # - yum: 
+    #     name: firewalld
+    # - systemd: 
+    #     name: firewalld
+    #     state: started
+    #     enabled: yes
 
   roles:
+#   - role: sethostname
   - role: ipaserver
     # state: absent
+#   - role: ipsilon
+#   - role: freeipa-letsencrypt
 
   tasks:
     # https://ipsilon-project.org/doc/quickstart-ipa.html
@@ -72,39 +75,39 @@
         name: httpd
         state: restarted
 
-    # https://github.com/freeipa/freeipa-letsencrypt
-    - yum: 
-        name: 
-          - epel-release
-          - dnf
-          - git
-    - git:
-        repo: https://github.com/freeipa/freeipa-letsencrypt.git
-        dest: /root/freeipa-letsencrypt
-        update: no
-    - lineinfile:
-        path: /root/freeipa-letsencrypt/ipa-httpd.cnf
-        regexp: '^FQDN ='
-        line: "FQDN = {{ ipaserver_hostname }}"
-    - lineinfile:
-        path: /root/freeipa-letsencrypt/renew-le.sh
-        regexp: '^EMAIL='
-        line: EMAIL="info@makerspace-gt.de"
-    - file:
-        path: /var/lib/ipa/private
-        state: directory
-    - file:
-        src: /var/lib/ipa/ra-agent.key
-        dest: /var/lib/ipa/private/httpd.key
-        state: link
-    - file:
-        path: /var/lib/ipa/certs
-        state: directory
-    - file:
-        src: /etc/ipa/ca.crt
-        dest: /var/lib/ipa/certs/httpd.crt
-        state: link
-    - command:
-        cmd: kinit -k -t /etc/krb5.keytab
-    - command:
-        cmd: /root/freeipa-letsencrypt/setup-le.sh
+    # # https://github.com/freeipa/freeipa-letsencrypt
+    # - yum: 
+    #     name: 
+    #       - epel-release
+    #       - dnf
+    #       - git
+    # - git:
+    #     repo: https://github.com/freeipa/freeipa-letsencrypt.git
+    #     dest: /root/freeipa-letsencrypt
+    #     update: no
+    # - lineinfile:
+    #     path: /root/freeipa-letsencrypt/ipa-httpd.cnf
+    #     regexp: '^FQDN ='
+    #     line: "FQDN = {{ ipaserver_hostname }}"
+    # - lineinfile:
+    #     path: /root/freeipa-letsencrypt/renew-le.sh
+    #     regexp: '^EMAIL='
+    #     line: EMAIL="info@makerspace-gt.de"
+    # - file:
+    #     path: /var/lib/ipa/private
+    #     state: directory
+    # - file:
+    #     src: /var/lib/ipa/ra-agent.key
+    #     dest: /var/lib/ipa/private/httpd.key
+    #     state: link
+    # - file:
+    #     path: /var/lib/ipa/certs
+    #     state: directory
+    # - file:
+    #     src: /etc/ipa/ca.crt
+    #     dest: /var/lib/ipa/certs/httpd.crt
+    #     state: link
+    # - command:
+    #     cmd: kinit -k -t /etc/krb5.keytab
+    # - command:
+    #     cmd: /root/freeipa-letsencrypt/setup-le.sh
