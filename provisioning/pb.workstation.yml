@@ -1,5 +1,8 @@
 ---
-- hosts: workstations
+- hosts: 
+  - jupiter
+  - saturn
+  - uranus
   become: yes
 
   roles:
@@ -14,7 +17,8 @@
 
     - android-tools
     - ansible
-    - arduinoide
+    - role: conorsch.arduino
+      arduino_version: 1.8.12
     - blender
     - deepnest
     # - duplicati
