@@ -1,16 +1,11 @@
 # https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
 
-[workstations]
-jupiter.space.local # links
-saturn.space.local  # rechts
-uranus.space.local  # Laptop
-
-[ganymed]
-ganymed.space.local # raspberry pi
-
 [forum]
 forum.makerspace-gt.de
 # discourse-mksp.4830.org
+
+[ganymed]
+ganymed.space.local # raspberry pi
 
 [git]
 git.makerspace-gt.de
@@ -19,3 +14,11 @@ git.makerspace-gt.de
 # [huginn]
 # huginn.makerspace-gt.de
 # xxx.4830.org
+
+[ipaserver]
+ipa.makerspace-gt.de
+
+[workstations]
+jupiter.space.local # links
+saturn.space.local  # rechts
+uranus.space.local  # Laptop

@@ -1,0 +1,110 @@
+---
+- name: Install FreeIPA Server
+  hosts: all
+  become: yes
+
+  vars:
+    ipaadmin_password: password
+    ipadm_password: password
+    # ipaserver_domain: ipa.test.local
+    # ipaserver_realm: TEST.LOCAL
+    ipaserver_hostname: ipa.makerspace-gt.de
+    ipaserver_domain: makerspace-gt.de
+    ipaserver_realm: MAKERSPACE-GT.DE
+
+  pre_tasks:
+    # - hostname: 
+    #     name: "{{ ipaserver_domain }}"
+    - command:
+        cmd: "hostnamectl set-hostname {{ ipaserver_hostname }}"
+    - file: 
+        path: /etc/hosts
+        state: absent
+    - copy:
+        content: "{{ ansible_default_ipv4.address }} {{ ipaserver_hostname }}"
+        dest: /etc/hosts
+    # - command:
+    #     cmd: "echo 192.251.226.18 ipa.makerspace-gt.de > /etc/hosts"
+    # - file: 
+    #     path: /etc/hosts
+    #     state: absent
+    # - file:
+    #     path: /etc/hosts
+    #     state: touch
+    - yum: 
+        name: firewalld
+    - systemd: 
+        name: firewalld
+        state: started
+        enabled: yes
+
+  roles:
+  - role: ipaserver
+    # state: absent
+
+  tasks:
+    # https://ipsilon-project.org/doc/quickstart-ipa.html
+    - yum:
+        name:
+        - ipsilon
+        - ipsilon-infosssd
+        - ipsilon-saml2
+        - ipsilon-authgssapi
+        - ipsilon-tools-ipa
+    - file:
+        src: /etc/krb5.keytab
+        dest: /etc/httpd/conf/ipa.keytab
+        state: link
+        # https://www.freeipa.org/page/Kerberos
+    - command:
+        cmd: ipsilon-server-install --ipa=yes --info-sssd=yes --form=yes
+    # - command:
+    #     cmd: mv /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.orig
+    # - copy:
+    #     src: /etc/httpd/conf.d/ssl.conf
+    #     dest: /etc/httpd/conf.d/ssl.conf.orig
+    - file: 
+        path: /etc/httpd/conf.d/ssl.conf
+        state: absent
+    - command:
+        cmd: sed -i 's/\<SSL/NSS/' /etc/ipsilon/idp/idp.conf
+    - service:
+        name: httpd
+        state: restarted
+
+    # https://github.com/freeipa/freeipa-letsencrypt
+    - yum: 
+        name: 
+          - epel-release
+          - dnf
+          - git
+    - git:
+        repo: https://github.com/freeipa/freeipa-letsencrypt.git
+        dest: /root/freeipa-letsencrypt
+        update: no
+    - lineinfile:
+        path: /root/freeipa-letsencrypt/ipa-httpd.cnf
+        regexp: '^FQDN ='
+        line: "FQDN = {{ ipaserver_hostname }}"
+    - lineinfile:
+        path: /root/freeipa-letsencrypt/renew-le.sh
+        regexp: '^EMAIL='
+        line: EMAIL="info@makerspace-gt.de"
+    - file:
+        path: /var/lib/ipa/private
+        state: directory
+    - file:
+        src: /var/lib/ipa/ra-agent.key
+        dest: /var/lib/ipa/private/httpd.key
+        state: link
+    - file:
+        path: /var/lib/ipa/certs
+        state: directory
+    - file:
+        src: /etc/ipa/ca.crt
+        dest: /var/lib/ipa/certs/httpd.crt
+        state: link
+    - command:
+        cmd: kinit -k -t /etc/krb5.keytab
+    - command:
+        cmd: /root/freeipa-letsencrypt/setup-le.sh
