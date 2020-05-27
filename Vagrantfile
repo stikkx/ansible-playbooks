@@ -26,7 +26,6 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.define "ipa" do |ipa|
-        # ipa.vm.box = "geerlingguy/centos7"
         ipa.vm.box = "centos/7"
 
         ipa.vm.network "public_network", ip: "192.168.178.26", bridge: "wlp3s0"
@@ -40,7 +39,7 @@ Vagrant.configure("2") do |config|
             ansible.playbook = "provisioning/pb.ipa.yml"
             ansible.extra_vars = {
                 ipaserver_hostname: "ipa.test.local",
-                ipaserver_domain: "ipa.test.local",
+                ipaserver_domain: "test.local",
                 ipaserver_realm: "TEST.LOCAL"
             }
         end
