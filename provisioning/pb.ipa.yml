@@ -77,3 +77,4 @@
         cmd: kinit -k -t /etc/krb5.keytab
     - command:
         cmd: /root/ipa-le/setup-le.sh
+      when: vagrant is undefined

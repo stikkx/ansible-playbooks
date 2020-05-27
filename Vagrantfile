@@ -40,7 +40,8 @@ Vagrant.configure("2") do |config|
             ansible.extra_vars = {
                 ipaserver_hostname: "ipa.test.local",
                 ipaserver_domain: "test.local",
-                ipaserver_realm: "TEST.LOCAL"
+                ipaserver_realm: "TEST.LOCAL",
+                vagrant: true
             }
         end
     end
