@@ -7,13 +7,13 @@
     ipaadmin_password: password
     ipadm_password: password
     ipaserver_domain: makerspace-gt.de
-    hostname: ipa
-    fqdn: "{{ hostname }}.{{ ipaserver_domain }}"
-    ipaserver_hostname: "{{ fqdn }}"
+    fqdn_short: ipa
+    fqdn_full: "{{ fqdn_short }}.{{ ipaserver_domain }}"
+    ipaserver_hostname: "{{ fqdn_full }}"
     ipaserver_realm: "{{ ipaserver_domain|upper }}"
 
   roles:
-  - role: holms.fqdn
+  - role: grog.fqdn
   - role: ipaserver
 # #   - role: ipsilon
 # #   - role: freeipa-letsencrypt

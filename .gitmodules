@@ -10,6 +10,6 @@
 [submodule "provisioning/roles/conorsch.arduino"]
 	path = provisioning/roles/conorsch.arduino
 	url = https://github.com/conorsch/ansible-role-arduino.git
-[submodule "provisioning/roles/holms.fqdn"]
-	path = provisioning/roles/holms.fqdn
-	url = https://github.com/holms/ansible-fqdn.git
+[submodule "provisioning/roles/grog.fqdn"]
+	path = provisioning/roles/grog.fqdn
+	url = https://github.com/GROG/ansible-role-fqdn.git
