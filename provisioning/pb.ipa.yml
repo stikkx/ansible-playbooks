@@ -4,11 +4,14 @@
   become: yes
 
   vars:
-    ipaadmin_password: password
-    ipadm_password: password
+    ipaadmin_password: m:;6D$k,n.:4[,Zn5Y!{,mNYx8XoqB"k
+    ipadm_password: f2)R`T{2[&z5;g&FHc&q6x%SZSn]G/eG
     ipaserver_domain: makerspace-gt.de
-    ipaserver_hostname: "user.{{ ipaserver_domain }}"
+    ipaserver_hostname: "ipa.{{ ipaserver_domain }}"
     ipaserver_realm: "{{ ipaserver_domain|upper }}"
+
+
+
 
 
   pre_tasks:
@@ -78,3 +81,8 @@
     - command:
         cmd: /root/ipa-le/setup-le.sh
       when: vagrant is undefined
+    - cron:
+        name: "check letsencrypt certificate"
+        minute: "0"
+        hour: "0"
+        job: "/root/ipa-le/renew-le.sh"
