@@ -4,31 +4,19 @@
   become: yes
 
   vars:
-    ipaadmin_password: m:;6D$k,n.:4[,Zn5Y!{,mNYx8XoqB"k
-    ipadm_password: f2)R`T{2[&z5;g&FHc&q6x%SZSn]G/eG
+    ipaadmin_password: password
+    ipadm_password: password
     ipaserver_domain: makerspace-gt.de
-    ipaserver_hostname: "ipa.{{ ipaserver_domain }}"
+    hostname: ipa
+    fqdn: "{{ hostname }}.{{ ipaserver_domain }}"
+    ipaserver_hostname: "{{ fqdn }}"
     ipaserver_realm: "{{ ipaserver_domain|upper }}"
 
-
-
-
-
-  pre_tasks:
-    - command:
-        cmd: "hostnamectl set-hostname {{ ipaserver_hostname }}"
-    - file: 
-        path: /etc/hosts
-        state: absent
-    - copy:
-        content: "{{ ansible_default_ipv4.address }} {{ ipaserver_hostname }}"
-        dest: /etc/hosts
-
   roles:
-#   - role: sethostname
+  - role: holms.fqdn
   - role: ipaserver
-#   - role: ipsilon
-#   - role: freeipa-letsencrypt
+# #   - role: ipsilon
+# #   - role: freeipa-letsencrypt
 
   tasks:
     # https://ipsilon-project.org/doc/quickstart-ipa.html
@@ -86,3 +74,6 @@
         minute: "0"
         hour: "0"
         job: "/root/ipa-le/renew-le.sh"
+    - service:
+        name: httpd
+        state: restarted
