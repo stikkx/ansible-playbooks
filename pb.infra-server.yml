@@ -1,0 +1,24 @@
+---
+
+# pb.docker.yml
+
+- hosts: docker
+  user: root
+  become: true
+  vars: 
+      ansible_python_interpreter: /usr/bin/python3
+
+  pre_tasks:
+    - name: copy ssh keys
+      # https://stackoverflow.com/a/48882051
+      authorized_key:
+        user: root
+        key: "{% for key in query('fileglob', 'public_keys/*') %}{{ lookup('file', key) ~ '\n'}}{% endfor %}"
+        exclusive: True
+      tags: setup-all
+
+  roles:
+    - common
+    - role: "nickjj.docker"
+      tags: ["docker"]
+    - role: vaultwarden
