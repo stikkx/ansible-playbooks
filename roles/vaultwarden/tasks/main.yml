@@ -9,6 +9,36 @@
     name: vaultwarden
     image: vaultwarden/server:latest
     state: started
-    ports: 80:80
     volumes:
-     - /data/
+      - ./vw_data/:/data/
+    env:
+      WEBSOCKET_ENABLED: 'true'  # Enable WebSocket notifications.
+
+- name: Copy Caddyfile to remote-location
+  copy:
+    src: ./files/Caddyfile
+    dest: ./Caddyfile
+
+- name: Create Caddy container
+  docker_container:
+    name: caddy
+    image: caddy:latest
+    state: started
+    ports:
+      - 80:80  # Needed for the ACME HTTP-01 challenge.
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-config:/config
+      - ./caddy-data:/data
+    env:
+      DOMAIN: https://docker.makerspace-gt.de # Your domain, prefixed with http or https.
+      EMAIL: info@makerspace-gt.de       # The email address to use for ACME registration.
+      LOG_FILE: /data/access.log
+
+- name: create docker network # Has to be added due to docker compose creates this implicit
+  docker_network:
+    name: vaultwarden
+    connected:
+      - vaultwarden
+      - caddy

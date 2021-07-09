@@ -13,12 +13,17 @@
       # https://stackoverflow.com/a/48882051
       authorized_key:
         user: root
-        key: "{% for key in query('fileglob', 'public_keys/*') %}{{ lookup('file', key) ~ '\n'}}{% endfor %}"
-        exclusive: True
-      tags: setup-all
+        key: https://github.com/{{ item }}.keys
+        comment: '{{ item }}'
+      ignore_errors: yes
+      with_items:
+        - igami
+        - stikkx
+        - leon2225
+        - mattn81
 
   roles:
-    - common
-    - role: "nickjj.docker"
-      tags: ["docker"]
+#    - common
+#    - role: "nickjj.docker"
+#      tags: ["docker"]
     - role: vaultwarden
