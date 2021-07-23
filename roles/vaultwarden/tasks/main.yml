@@ -32,7 +32,7 @@
       - ./caddy-config:/config
       - ./caddy-data:/data
     env:
-      DOMAIN: https://docker.makerspace-gt.de # Your domain, prefixed with http or https.
+      DOMAIN: https://bitwarden.makerspace-gt.de # Your domain, prefixed with http or https.
       EMAIL: info@makerspace-gt.de       # The email address to use for ACME registration.
       LOG_FILE: /data/access.log
 
