@@ -12,7 +12,26 @@
     volumes:
       - ./vw_data/:/data/
     env:
-      WEBSOCKET_ENABLED: 'true'  # Enable WebSocket notifications.
+      # Dokumentation aller Environmant Variablen unter https://github.com/dani-garcia/vaultwarden/blob/main/.env.template
+      WEBSOCKET_ENABLED: "true" ## Enables websocket notifications
+      DOMAIN: https://bitwarden.makerspace-gt.de # It's recommended to configure this value, otherwise certain functionality might not work, like attachment downloads, email links and U2F.
+
+      # SMTP_HOST={{ bwrs_env_smtp_host }}
+      # SMTP_FROM={{ bwrs_env_smtp_from }}
+      # SMTP_PORT={{ bwrs_env_smtp_port }}
+      # SMTP_SSL={{ bwrs_env_smtp_ssl }}
+      # SMTP_USERNAME={{ bwrs_env_smtp_username }}
+      # SMTP_PASSWORD={{ bwrs_env_smtp_password }}
+      # SMTP_EXPLICIT_TLS={{ bwrs_env_smtp_explicit_tls }}
+      # SHOW_PASSWORD_HINT={{ bwrs_env_show_password_hint }}
+
+      ## Require new device emails. When a user logs in an email is required to be sent.
+      ## If sending the email fails the login attempt will fail!!
+      # REQUIRE_DEVICE_EMAIL=false
+
+      ## HIBP Api Key
+      ## HaveIBeenPwned API Key, request it here: https://haveibeenpwned.com/API/Key
+      # HIBP_API_KEY=
 
 - name: Copy Caddyfile to remote-location
   copy:
